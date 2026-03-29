@@ -1,0 +1,30 @@
+{
+    "name": "nutoolbox/php-gitlab-client",
+    "description": "A modern, type-safe PHP client for the GitLab REST API built on PSR standards.",
+    "type": "library",
+    "license": "Apache-2.0",
+    "autoload": {
+        "psr-4": {
+            "Nutoolbox\\PhpGitlabClient\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "NuSphere",
+            "email": "nusphere83@gmail.com"
+        }
+    ],
+    "scripts": {
+        "test": "phpunit",
+        "lint": "phpstan analyse",
+        "cs": "phpcs"
+    },
+    "require": {
+        "php": "~8.3.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^12.5",
+        "squizlabs/php_codesniffer": "^4.0"
+    }
+}
