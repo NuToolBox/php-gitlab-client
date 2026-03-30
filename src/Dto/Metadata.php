@@ -30,12 +30,7 @@ readonly class Metadata
         return new self(
             version: $data['version'],
             revision: $data['revision'],
-            kas: new MetadataKas(
-                enabled: $data['kas']['enabled'],
-                externalUrl: $data['kas']['externalUrl'],
-                externalK8sProxyUrl: $data['kas']['externalK8sProxyUrl'],
-                version: $data['kas']['version'],
-            ),
+            kas: MetadataKas::fromArray($data['kas']),
             enterprise: $data['enterprise']
         );
     }
