@@ -2,6 +2,7 @@
 
 namespace NuToolBox\Gitlab\Api;
 
+use DateMalformedStringException;
 use NuToolBox\Gitlab\Dto\Project;
 use NuToolBox\Gitlab\Exception\GitlabException;
 use NuToolBox\Gitlab\Http\GitlabHttpClient;
@@ -18,7 +19,7 @@ final readonly class ProjectsApi
 
     /**
      * @return list<Project>
-     * @throws GitlabException
+     * @throws GitlabException|DateMalformedStringException
      */
     public function list(int $page = 1, int $perPage = 20, bool $membership = true): array
     {

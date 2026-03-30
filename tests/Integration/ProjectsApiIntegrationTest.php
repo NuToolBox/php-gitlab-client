@@ -2,7 +2,9 @@
 
 namespace NuToolBox\Gitlab\Tests\Integration;
 
+use DateMalformedStringException;
 use Http\Discovery\Psr17Factory;
+use Http\Discovery\Psr18Client;
 use NuToolBox\Gitlab\Auth\GitlabAuthentication;
 use NuToolBox\Gitlab\Client;
 use NuToolBox\Gitlab\Dto\Project;
@@ -19,6 +21,35 @@ final class ProjectsApiIntegrationTest extends TestCase
      * @throws GitlabException
      */
     public function testListProjectsAgainstRealGitlabApi(): void
+    {
+        $baseUrl = $_ENV['GITLAB_BASE_URL'] ?: '';
+        $token = $_ENV['GITLAB_TOKEN'] ?: '';
+
+        if ($baseUrl === '' || $token === '' || !is_string($token) || !is_string($baseUrl)) {
+            self::markTestSkipped('GITLAB_BASE_URL or GITLAB_TOKEN is not configured.');
+        }
+
+        $client = new Client(
+            psrHttpClient: new Psr18Client(),
+            requestFactory: new Psr17Factory(),
+            authentication: GitlabAuthentication::privateToken($token),
+            baseUrl: $baseUrl,
+        );
+
+        $projects = $client->projects()->list();
+
+        self::assertNotEmpty($projects, 'Expected at least one project from the GitLab API.');
+        self::assertContainsOnlyInstancesOf(
+            Project::class,
+            $projects
+        );
+    }
+
+    /**
+     * @throws GitlabException
+     * @throws DateMalformedStringException
+     */
+    public function testListProjectsAgainstRealGitlabApiFixture(): void
     {
         $json = Fixtures::load('gitlab/projects/list_success.json');
 
