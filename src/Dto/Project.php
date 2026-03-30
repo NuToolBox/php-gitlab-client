@@ -39,7 +39,7 @@ readonly class Project
             pathWithNamespace: $data['path_with_namespace'],
             createdAt: new DateTimeImmutable($data['created_at']),
             defaultBranch: $data['default_branch'],
-            archived: !!$data['archived'],
+            archived: $data['archived'] ?? false,
             sshUrlToRepo: $data['ssh_url_to_repo'],
             httpUrlToRepo: $data['http_url_to_repo'],
             webUrl: $data['web_url'],
