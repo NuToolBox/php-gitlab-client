@@ -5,7 +5,12 @@
     "license": "Apache-2.0",
     "autoload": {
         "psr-4": {
-            "Nutoolbox\\PhpGitlabClient\\": "src/"
+            "NuToolBox\\Gitlab\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "NuToolBox\\Gitlab\\Tests\\": "tests/"
         }
     },
     "authors": [
@@ -20,11 +25,24 @@
         "cs": "phpcs"
     },
     "require": {
-        "php": "~8.3.0"
+        "php": "~8.3.0",
+        "psr/http-message": "^1.0",
+        "psr/http-client": "^1.0",
+        "php-http/discovery": "^1.17",
+        "psr/http-client-implementation": "*",
+        "symfony/http-client": "^7.4",
+        "nyholm/psr7": "^1.8",
+        "psr/http-factory-implementation": "*"
     },
     "require-dev": {
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^12.5",
-        "squizlabs/php_codesniffer": "^4.0"
+        "squizlabs/php_codesniffer": "^4.0",
+        "vlucas/phpdotenv": "^5.6"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     }
 }
