@@ -2,6 +2,7 @@
 
 namespace NuToolBox\Gitlab;
 
+use NuToolBox\Gitlab\Api\AvatarApi;
 use NuToolBox\Gitlab\Api\MetadataApi;
 use NuToolBox\Gitlab\Api\ProjectsApi;
 use NuToolBox\Gitlab\Auth\AuthenticationStrategy;
@@ -25,6 +26,11 @@ class Client
             authentication: $authentication,
             baseUrl: $baseUrl,
         );
+    }
+
+    public function avatar(): AvatarApi
+    {
+        return new AvatarApi($this->httpClient);
     }
 
     public function projects(): ProjectsApi
