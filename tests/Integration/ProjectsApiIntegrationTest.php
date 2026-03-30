@@ -15,28 +15,14 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[Group('integration')]
-final class ProjectsApiIntegrationTest extends TestCase
+final class ProjectsApiIntegrationTest extends IntegrationTestCase
 {
     /**
      * @throws GitlabException
      */
     public function testListProjectsAgainstRealGitlabApi(): void
     {
-        $baseUrl = $_ENV['GITLAB_BASE_URL'] ?: '';
-        $token = $_ENV['GITLAB_TOKEN'] ?: '';
-
-        if ($baseUrl === '' || $token === '' || !is_string($token) || !is_string($baseUrl)) {
-            self::markTestSkipped('GITLAB_BASE_URL or GITLAB_TOKEN is not configured.');
-        }
-
-        $client = new Client(
-            psrHttpClient: new Psr18Client(),
-            requestFactory: new Psr17Factory(),
-            authentication: GitlabAuthentication::privateToken($token),
-            baseUrl: $baseUrl,
-        );
-
-        $projects = $client->projects()->list();
+        $projects = $this->getClient()->projects()->list();
 
         self::assertNotEmpty($projects, 'Expected at least one project from the GitLab API.');
         self::assertContainsOnlyInstancesOf(
@@ -49,27 +35,10 @@ final class ProjectsApiIntegrationTest extends TestCase
      * @throws GitlabException
      * @throws DateMalformedStringException
      */
-    public function testListProjectsAgainstRealGitlabApiFixture(): void
+    public function testListProjectsAgainstGitlabApiFixture(): void
     {
-        $json = Fixtures::load('gitlab/projects/list_success.json');
-
-        $factory = new Psr17Factory();
-
-        $response = $factory->createResponse(200)
-            ->withHeader('Content-Type', 'application/json');
-
-        $response->getBody()->write($json);
-
-        $mockHttpClient = new MockHttpClient($response);
-
-        $client = new Client(
-            psrHttpClient: $mockHttpClient,
-            requestFactory: $factory,
-            authentication: GitlabAuthentication::privateToken('gitlab-private-token'),
-            baseUrl: 'https://gitlab.example.com',
-        );
-
-        $projects = $client->projects()->list();
+        $projects = $this->getMockedClient('gitlab/projects/list_success.json')
+            ->projects()->list();
 
         self::assertNotEmpty($projects, 'Expected at least one project from the GitLab API.');
         self::assertContainsOnlyInstancesOf(

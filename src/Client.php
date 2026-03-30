@@ -2,6 +2,7 @@
 
 namespace NuToolBox\Gitlab;
 
+use NuToolBox\Gitlab\Api\MetadataApi;
 use NuToolBox\Gitlab\Api\ProjectsApi;
 use NuToolBox\Gitlab\Auth\AuthenticationStrategy;
 use NuToolBox\Gitlab\Http\GitlabHttpClient;
@@ -29,5 +30,10 @@ class Client
     public function projects(): ProjectsApi
     {
         return new ProjectsApi($this->httpClient);
+    }
+
+    public function metadata(): MetadataApi
+    {
+        return new MetadataApi($this->httpClient);
     }
 }
