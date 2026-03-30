@@ -28,6 +28,8 @@ final readonly class GitlabHttpClient
     }
 
     /**
+     * @param array<string, mixed> $query
+     *
      * @return array<mixed>
      * @throws GitlabException
      */

@@ -6,10 +6,13 @@ use NuToolBox\Gitlab\Dto\Project;
 use NuToolBox\Gitlab\Exception\GitlabException;
 use NuToolBox\Gitlab\Http\GitlabHttpClient;
 
+/**
+ * @phpstan-import-type ProjectArray from Project
+ */
 final readonly class ProjectsApi
 {
     public function __construct(
-        private readonly GitlabHttpClient $httpClient
+        private GitlabHttpClient $httpClient
     ) {
     }
 
@@ -26,10 +29,8 @@ final readonly class ProjectsApi
             'simple' => 'true',
         ]);
 
+        /** @var list<ProjectArray> $response */
         return array_map(
-        /**
-         * @param array<string, mixed> $project
-         */
             static fn (array $project): Project => Project::fromArray($project),
             $response,
         );

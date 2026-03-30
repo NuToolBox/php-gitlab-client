@@ -4,6 +4,28 @@ namespace NuToolBox\Gitlab\Dto;
 
 use DateTimeImmutable;
 
+/**
+ * @phpstan-type ProjectArray array{
+ *       id: int,
+ *       description: string,
+ *       name: string,
+ *       name_with_namespace: string,
+ *       path: string,
+ *       path_with_namespace: string,
+ *       created_at: "2020-02-15T13:54:28.061Z",
+ *       default_branch: string,
+ *       ssh_url_to_repo: string,
+ *       http_url_to_repo: string,
+ *       web_url: string,
+ *       readme_url: string,
+ *       forks_count: int,
+ *       avatar_url: string,
+ *       star_count: int<0, max>,
+ *       last_activity_at: string,
+ *       visibility: string,
+ *       archived?: bool,
+ *  }
+ */
 readonly class Project
 {
     public function __construct(
@@ -28,6 +50,11 @@ readonly class Project
     ) {
     }
 
+    /**
+     * @param ProjectArray $data
+     * @return self
+     * @throws \DateMalformedStringException
+     */
     public static function fromArray(array $data): self
     {
         return new self(
@@ -38,17 +65,17 @@ readonly class Project
             path: $data['path'],
             pathWithNamespace: $data['path_with_namespace'],
             createdAt: new DateTimeImmutable($data['created_at']),
+            lastActivityAt: new DateTimeImmutable($data['last_activity_at']),
             defaultBranch: $data['default_branch'],
             archived: $data['archived'] ?? false,
             sshUrlToRepo: $data['ssh_url_to_repo'],
             httpUrlToRepo: $data['http_url_to_repo'],
             webUrl: $data['web_url'],
             readmeUrl: $data['readme_url'],
-            forksCount: $data['forks_count'] ?? 0,
-            starCount: $data['star_count'] ?? 0,
             avatarUrl: $data['avatar_url'],
-            lastActivityAt: new DateTimeImmutable($data['last_activity_at']),
             visibility: $data['visibility'],
+            forksCount: $data['forks_count'],
+            starCount: $data['star_count'],
         );
     }
 }
