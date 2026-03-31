@@ -2,6 +2,7 @@
 
 namespace NuToolBox\Gitlab\Api;
 
+use NuToolBox\Gitlab\Client;
 use NuToolBox\Gitlab\Dto\Metadata;
 use NuToolBox\Gitlab\Exception\GitlabException;
 use NuToolBox\Gitlab\Http\GitlabHttpClient;
@@ -13,9 +14,12 @@ use NuToolBox\Gitlab\Http\GitlabHttpClient;
  */
 final readonly class MetadataApi
 {
+    private GitlabHttpClient $httpClient;
+
     public function __construct(
-        private GitlabHttpClient $httpClient
+        private Client $client
     ) {
+        $this->httpClient = $this->client->getHttpClient();
     }
 
     /**

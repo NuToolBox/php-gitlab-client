@@ -9,7 +9,7 @@ namespace NuToolBox\Gitlab\Dto;
  *     size?: int
  * }
  */
-class Avatar
+readonly class Avatar
 {
     public function __construct(
         public string $email,

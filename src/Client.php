@@ -3,6 +3,7 @@
 namespace NuToolBox\Gitlab;
 
 use NuToolBox\Gitlab\Api\AvatarApi;
+use NuToolBox\Gitlab\Api\BranchesApi;
 use NuToolBox\Gitlab\Api\MetadataApi;
 use NuToolBox\Gitlab\Api\ProjectsApi;
 use NuToolBox\Gitlab\Auth\AuthenticationStrategy;
@@ -28,18 +29,28 @@ class Client
         );
     }
 
+    public function getHttpClient(): GitlabHttpClient
+    {
+        return $this->httpClient;
+    }
+
     public function avatar(): AvatarApi
     {
-        return new AvatarApi($this->httpClient);
+        return new AvatarApi($this);
     }
 
     public function projects(): ProjectsApi
     {
-        return new ProjectsApi($this->httpClient);
+        return new ProjectsApi($this);
+    }
+
+    public function branches(): BranchesApi
+    {
+        return new BranchesApi($this);
     }
 
     public function metadata(): MetadataApi
     {
-        return new MetadataApi($this->httpClient);
+        return new MetadataApi($this);
     }
 }
