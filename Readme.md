@@ -8,28 +8,68 @@ Most existing GitLab clients rely heavily on loosely structured arrays and mirro
 This project takes a different approach:
 
 * **Typed DTOs instead of raw arrays**
-* **Clear and predictable API design**
+* **Resource-based API for better developer experience**
 * **PSR-18 compatible HTTP layer**
 * **Explicit authentication strategies**
-* **Focused on developer experience and maintainability**
+* **Focused on maintainability and testability**
+
+---
+
+## Key Concept: Resource-Based API
+
+Instead of working with raw arrays or deeply nested API calls, this client introduces **resource objects**.
+
+You can start with a project and continue working within its context:
+
+```php
+$project = $client->projects()->get('nusphere/nuclub');
+
+$branches = $project->branches()->list();
+$commits = $project->commits()->list();
+$file = $project->files()->getRaw('composer.json', 'main');
+```
+
+This allows a more natural and expressive workflow compared to traditional API clients.
+
+---
 
 ## Features
 
 * Supports multiple authentication strategies:
 
-    * Private Token
-    * Bearer Token
-    * Job Token
-    * Sudo (as decorator)
-* Clean separation of concerns (HTTP, API, DTO, Auth)
+  * Private Token
+  * Bearer Token
+  * Job Token
+  * Sudo (as decorator)
+
+* Clean separation of concerns:
+
+  * HTTP layer
+  * API modules
+  * DTOs
+  * Resource objects
+
+* Strong typing:
+
+  * `ProjectResource`, `ProjectDetails`, etc.
+  * No raw array handling required
+
 * Strong error handling via domain-specific exceptions
-* Designed for testing (mockable HTTP client, fixture-based testing)
+
+* Designed for testing:
+
+  * Mockable HTTP client (PSR-18)
+  * Fixture-based testing
+
+---
 
 ## Installation
 
 ```bash
 composer require nutoolbox/php-gitlab-client
 ```
+
+---
 
 ## Usage
 
@@ -51,8 +91,37 @@ $client = new Client(
 $projects = $client->projects()->list();
 
 foreach ($projects as $project) {
-    echo $project->pathWithNamespace . PHP_EOL;
+    echo $project->details()->pathWithNamespace . PHP_EOL;
 }
+```
+
+---
+
+### Working with Project Resources
+
+```php
+$project = $client->projects()->get('nusphere/nuclub');
+
+// Access project details
+echo $project->details()->name;
+
+// Work with related resources
+$branches = $project->branches()->list();
+$commits = $project->commits()->list();
+
+// Access repository files
+$content = $project->files()->getRaw('composer.json', 'main');
+```
+
+---
+
+### Direct API Access (Alternative)
+
+You can still use the flat API if preferred:
+
+```php
+$branches = $client->branches()->list('nusphere/nuclub');
+$file = $client->repositoryFiles()->getRaw('nusphere/nuclub', 'composer.json', 'main');
 ```
 
 ---
@@ -80,18 +149,20 @@ This library is designed to be testable.
 * Supports fixture-based testing
 * No real API calls required for unit tests
 
-Example test approach:
+Example:
 
 ```php
 $mockHttpClient = new MockHttpClient($response);
 ```
 
-For integration tests, environment variables can be used:
+Integration tests can use environment variables:
 
 ```bash
 GITLAB_BASE_URL=https://gitlab.example.com
 GITLAB_TOKEN=glpat-xxxxxxxx
 ```
+
+Example integration test usage:
 
 ---
 
@@ -108,6 +179,7 @@ This library focuses on:
 
 * strict typing over loosely structured data
 * explicit behavior over magic
+* resource-oriented design over endpoint mirroring
 * small, composable building blocks
 * long-term maintainability over quick wrappers
 
