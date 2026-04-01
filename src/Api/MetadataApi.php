@@ -2,33 +2,23 @@
 
 namespace NuToolBox\Gitlab\Api;
 
-use NuToolBox\Gitlab\Client;
 use NuToolBox\Gitlab\Dto\Metadata;
 use NuToolBox\Gitlab\Exception\GitlabException;
-use NuToolBox\Gitlab\Http\GitlabHttpClient;
 
 /**
  * https://docs.gitlab.com/api/metadata/
  *
  * @phpstan-import-type MetadataArray from Metadata
  */
-final readonly class MetadataApi
+final readonly class MetadataApi extends GitLabApi
 {
-    private GitlabHttpClient $httpClient;
-
-    public function __construct(
-        private Client $client
-    ) {
-        $this->httpClient = $this->client->getHttpClient();
-    }
-
     /**
      * @throws GitlabException
      */
     public function version(): Metadata
     {
         /** @var MetadataArray $response */
-        $response = $this->httpClient->getJson('version');
+        $response = $this->getHttpClient()->getJson('version');
 
         return Metadata::fromArray($response);
     }
@@ -36,7 +26,7 @@ final readonly class MetadataApi
     public function metadata(): Metadata
     {
         /** @var MetadataArray $response */
-        $response = $this->httpClient->getJson('metadata');
+        $response = $this->getHttpClient()->getJson('metadata');
 
         return Metadata::fromArray($response);
     }
