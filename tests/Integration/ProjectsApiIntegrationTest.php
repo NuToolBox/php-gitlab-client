@@ -3,18 +3,10 @@
 namespace NuToolBox\Gitlab\Tests\Integration;
 
 use DateMalformedStringException;
-use Http\Discovery\Psr17Factory;
-use Http\Discovery\Psr18Client;
 use NuToolBox\Gitlab\Api\Project\ProjectResource;
-use NuToolBox\Gitlab\Auth\GitlabAuthentication;
-use NuToolBox\Gitlab\Client;
-use NuToolBox\Gitlab\Dto\Project;
 use NuToolBox\Gitlab\Exception\GitlabException;
 use NuToolBox\Gitlab\Exception\NotFoundException;
-use NuToolBox\Gitlab\Tests\Support\Fixtures;
-use NuToolBox\Gitlab\Tests\Support\Http\MockHttpClient;
 use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\TestCase;
 
 #[Group('integration')]
 final class ProjectsApiIntegrationTest extends IntegrationTestCase
@@ -60,8 +52,6 @@ final class ProjectsApiIntegrationTest extends IntegrationTestCase
         $this->getClient()->projects()->get(12);
     }
 
-
-
     /**
      * @throws GitlabException
      */
@@ -70,6 +60,26 @@ final class ProjectsApiIntegrationTest extends IntegrationTestCase
         $project = $this->getClient()->projects()->get(16925924);
 
         self::assertSame(16925924, $project->details()->id);
+    }
+
+    /**
+     * @throws GitlabException
+     */
+    public function testGetProjectDetailsAgainstRealGitlabApi(): void
+    {
+        $projectDetails = $this->getClient()->projects()->fetchDetails('nusphere/symfony-strava-connector');
+
+        self::assertSame(34169043, $projectDetails->id);
+    }
+
+    /**
+     * @throws GitlabException
+     */
+    public function testGetProjectFileAgainstRealGitlabApi(): void
+    {
+        $project = $this->getClient()->projects()->get('nusphere/symfony-strava-connector');
+
+        self::assertSame('composer.json', $project->files()->get('composer.json')->fileName);
     }
 
     /**

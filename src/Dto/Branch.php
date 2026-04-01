@@ -9,7 +9,7 @@ namespace NuToolBox\Gitlab\Dto;
  *     size?: int
  * }
  */
-class Branch
+readonly class Branch
 {
     public function __construct(
         public string $name,

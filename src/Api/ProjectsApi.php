@@ -29,7 +29,7 @@ final readonly class ProjectsApi
     public function list(int $page = 1, int $perPage = 20, bool $membership = true): array
     {
         $projectList = [];
-        $response = $this->httpClient->get('projects', [
+        $response = $this->httpClient->getJson('projects', [
             'page' => $page,
             'per_page' => $perPage,
             'membership' => $membership ? 'true' : 'false',
@@ -50,7 +50,7 @@ final readonly class ProjectsApi
     public function get(int|string $idOrPath): ProjectResource
     {
         /** @var ProjectArray $response */
-        $response = $this->httpClient->get(
+        $response = $this->httpClient->getJson(
             'projects/' . $this->encodeProjectId($idOrPath)
         );
 

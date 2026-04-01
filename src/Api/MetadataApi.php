@@ -28,7 +28,7 @@ final readonly class MetadataApi
     public function version(): Metadata
     {
         /** @var MetadataArray $response */
-        $response = $this->httpClient->get('version');
+        $response = $this->httpClient->getJson('version');
 
         return Metadata::fromArray($response);
     }
@@ -36,7 +36,7 @@ final readonly class MetadataApi
     public function metadata(): Metadata
     {
         /** @var MetadataArray $response */
-        $response = $this->httpClient->get('metadata');
+        $response = $this->httpClient->getJson('metadata');
 
         return Metadata::fromArray($response);
     }

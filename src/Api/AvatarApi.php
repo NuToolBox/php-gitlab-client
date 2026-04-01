@@ -22,7 +22,7 @@ final class AvatarApi
     public function byEmail(string $publicEmail): Avatar
     {
         /** @var AvatarArray $avatar */
-        $avatar = $this->httpClient->get('avatar', [
+        $avatar = $this->httpClient->getJson('avatar', [
             'email' => $publicEmail,
         ]);
 

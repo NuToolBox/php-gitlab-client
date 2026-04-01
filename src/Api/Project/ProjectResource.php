@@ -33,11 +33,11 @@ final class ProjectResource
         return new ProjectBranchesApi($this->client->branches(), $this->projectId);
     }
 
-//    public function files(): ProjectRepositoryFilesApi
-//    {
-//        return new ProjectRepositoryFilesApi($this->client->repositoryFiles(), $this->projectId);
-//    }
-//
+    public function files(): ProjectRepositoryFilesApi
+    {
+        return new ProjectRepositoryFilesApi($this->client->files(), $this->projectId);
+    }
+
 //    public function commits(): ProjectCommitsApi
 //    {
 //        return new ProjectCommitsApi($this->client->commits(), $this->projectId);

@@ -6,6 +6,7 @@ use NuToolBox\Gitlab\Api\AvatarApi;
 use NuToolBox\Gitlab\Api\BranchesApi;
 use NuToolBox\Gitlab\Api\MetadataApi;
 use NuToolBox\Gitlab\Api\ProjectsApi;
+use NuToolBox\Gitlab\Api\RepositoryFilesApi;
 use NuToolBox\Gitlab\Auth\AuthenticationStrategy;
 use NuToolBox\Gitlab\Http\GitlabHttpClient;
 use Psr\Http\Client\ClientInterface;
@@ -47,6 +48,11 @@ class Client
     public function branches(): BranchesApi
     {
         return new BranchesApi($this);
+    }
+
+    public function files(): RepositoryFilesApi
+    {
+        return new RepositoryFilesApi($this);
     }
 
     public function metadata(): MetadataApi

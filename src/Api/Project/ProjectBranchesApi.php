@@ -5,7 +5,7 @@ namespace NuToolBox\Gitlab\Api\Project;
 use NuToolBox\Gitlab\Api\BranchesApi;
 use NuToolBox\Gitlab\Dto\Branch;
 
-class ProjectBranchesApi
+final class ProjectBranchesApi
 {
     public function __construct(
         private BranchesApi $branchesApi,

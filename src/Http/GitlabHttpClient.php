@@ -15,6 +15,7 @@ use NuToolBox\Gitlab\Exception\ServerException;
 use NuToolBox\Gitlab\Exception\ValidationException;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 final readonly class GitlabHttpClient
@@ -28,12 +29,30 @@ final readonly class GitlabHttpClient
     }
 
     /**
-     * @param array<string, mixed> $query
+     * @param array<string, int|string> $query
      *
      * @return array<mixed>
      * @throws GitlabException
      */
-    public function get(string $path, array $query = []): array
+    public function getJson(string $path, array $query = []): array
+    {
+        $request = $this->buildRequest('GET', $path, $query);
+        $request->withHeader('Accept', 'application/json');
+
+        $response = $this->httpClient->sendRequest($request);
+
+        $this->throwOnError($response);
+
+        return $this->decodeJsonResponse($response);
+    }
+
+    /**
+     * @param string $method
+     * @param string $path
+     * @param array<string, int|string> $query
+     * @return RequestInterface
+     */
+    private function buildRequest(string $method, string $path, array $query = []): RequestInterface
     {
         $url = rtrim($this->baseUrl, '/') . '/api/v4/' . ltrim($path, '/');
 
@@ -41,17 +60,25 @@ final readonly class GitlabHttpClient
             $url .= '?' . http_build_query($query);
         }
 
-        $request = $this->requestFactory
-            ->createRequest('GET', $url)
-            ->withHeader('Accept', 'application/json');
-
+        $request = $this->requestFactory->createRequest($method, $url);
         $request = $this->authentication->authenticate($request);
 
+        return $request;
+    }
+
+    /**
+     * @param array<string, int|string> $query
+     *
+     * @throws GitlabException
+     */
+    public function get(string $path, array $query = []): string
+    {
+        $request = $this->buildRequest('GET', $path, $query);
         $response = $this->httpClient->sendRequest($request);
 
         $this->throwOnError($response);
 
-        return $this->decodeJsonResponse($response);
+        return (string) $response->getBody();
     }
 
     private function throwOnError(ResponseInterface $response): void

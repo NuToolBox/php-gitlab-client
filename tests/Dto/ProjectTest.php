@@ -21,7 +21,7 @@ class ProjectTest extends TestCase
 
         /** @var list<ProjectArray> $projects */
         $projects = json_decode($json, true);
-        $project = $projects[rand(0, count($projects))];
+        $project = $projects[rand(0, count($projects) - 1)];
 
         $projectDto = Project::fromArray($project);
 

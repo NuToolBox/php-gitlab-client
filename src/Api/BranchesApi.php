@@ -30,7 +30,7 @@ final readonly class BranchesApi
         /** @var list<BranchArray> $branches */
         $branches = $this
             ->httpClient
-            ->get('/projects/' . $this->encodeProjectId($projectIdOrPath) . '/repository/branches');
+            ->getJson('/projects/' . $this->encodeProjectId($projectIdOrPath) . '/repository/branches');
 
         if (count($branches) > 0) {
             foreach ($branches as $branch) {
