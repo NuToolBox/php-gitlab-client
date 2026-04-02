@@ -63,7 +63,7 @@ jobs:
             --coverage-clover build/coverage/clover.xml \
             --coverage-html build/coverage/html \
             --coverage-text
-            --log-junit junit.xml
+            --log-junit build/junit.xml
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v7
@@ -81,6 +81,7 @@ jobs:
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
         with:
+          files: build/junit.xml
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Run PHPStan
