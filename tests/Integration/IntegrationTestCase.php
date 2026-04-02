@@ -14,8 +14,8 @@ abstract class IntegrationTestCase extends TestCase
 {
     public function getClient(): Client
     {
-        $baseUrl = $_ENV['GITLAB_BASE_URL'] ?: '';
-        $token = $_ENV['GITLAB_TOKEN'] ?: '';
+        $baseUrl = $_ENV['GITLAB_BASE_URL'] ?: getenv('GITLAB_BASE_URL') ?: '';
+        $token = $_ENV['GITLAB_TOKEN'] ?: getenv('GITLAB_TOKEN') ?: '';
 
         if ($baseUrl === '' || $token === '' || !is_string($token) || !is_string($baseUrl)) {
             self::markTestSkipped('GITLAB_BASE_URL or GITLAB_TOKEN is not configured.');
