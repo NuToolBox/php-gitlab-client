@@ -2,14 +2,19 @@
 
 namespace NuToolBox\Gitlab\Tests\Integration;
 
-use NuToolBox\Gitlab\Api\BranchesApi;
+use NuToolBox\Gitlab\Exception\GitlabException;
 
-class BranchesApiIntegrationTest extends IntegrationTestCase
+final class BranchesApiIntegrationTest extends IntegrationTestCase
 {
+    /**
+     * @throws GitlabException
+     */
     public function testBranchListAgainstRealGitLabAPI(): void
     {
         $branches = $this->getClient()->branches()->list('nusphere/symfony-strava-connector');
 
         self::assertNotEmpty($branches);
+        self::assertStringContainsString('nusphere/symfony-strava-connector', $branches[0]->webUrl);
+        self::assertSame('master', $branches[0]->name);
     }
 }

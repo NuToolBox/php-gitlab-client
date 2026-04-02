@@ -22,7 +22,8 @@
     "scripts": {
         "test": "phpunit",
         "lint": "phpstan analyse",
-        "cs": "phpcs"
+        "cs": "phpcs",
+        "cs-fix": "phpcbf"
     },
     "require": {
         "php": "^8.3",

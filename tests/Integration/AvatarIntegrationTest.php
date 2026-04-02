@@ -2,9 +2,7 @@
 
 namespace NuToolBox\Gitlab\Tests\Integration;
 
-use NuToolBox\Gitlab\Api\AvatarApi;
-
-class AvatarIntegrationTest extends IntegrationTestCase
+final class AvatarIntegrationTest extends IntegrationTestCase
 {
     public function testAvatarApiAgainstRealGitlabApi(): void
     {

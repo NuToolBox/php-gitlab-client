@@ -72,6 +72,18 @@ final class ProjectsApiIntegrationTest extends IntegrationTestCase
         self::assertSame(34169043, $projectDetails->id);
     }
 
+
+    /**
+     * @throws GitlabException
+     */
+    public function testGetProjectDetailsByProjectAgainstRealGitlabApi(): void
+    {
+        $project = $this->getClient()->projects()->list()[0];
+        $projectDetails = $project->details();
+
+        self::assertSame(34169043, $projectDetails->id);
+    }
+
     /**
      * @throws GitlabException
      */
@@ -80,6 +92,7 @@ final class ProjectsApiIntegrationTest extends IntegrationTestCase
         $project = $this->getClient()->projects()->get('nusphere/symfony-strava-connector');
 
         self::assertSame('composer.json', $project->files()->get('composer.json')->fileName);
+        self::assertSame(34169043, $project->id());
     }
 
     /**
@@ -88,8 +101,9 @@ final class ProjectsApiIntegrationTest extends IntegrationTestCase
     public function testGetProjectBranchesAgainstRealGitlabApi(): void
     {
         $project = $this->getClient()->projects()->get(20535049);
+        $branches = $project->branches()->list();
 
-        self::assertNotEmpty($project->branches()->list());
+        self::assertNotEmpty($branches);
     }
 
     /**

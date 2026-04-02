@@ -2,6 +2,7 @@
 
 namespace NuToolBox\Gitlab\Api\Project;
 
+use NuToolBox\Gitlab\Api\PipelinesApi;
 use NuToolBox\Gitlab\Client;
 use NuToolBox\Gitlab\Dto\Project;
 
@@ -38,8 +39,13 @@ final class ProjectResource
         return new ProjectRepositoryFilesApi($this->client->files(), $this->projectId);
     }
 
-//    public function commits(): ProjectCommitsApi
-//    {
-//        return new ProjectCommitsApi($this->client->commits(), $this->projectId);
-//    }
+    public function pipelines(): ProjectPipelinesApi
+    {
+        return new ProjectPipelinesApi($this->client->pipelines(), $this->projectId);
+    }
+
+    public function commits(): ProjectCommitsApi
+    {
+        return new ProjectCommitsApi($this->client->commits(), $this->projectId);
+    }
 }
