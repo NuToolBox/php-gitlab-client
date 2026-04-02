@@ -62,7 +62,7 @@ jobs:
             --configuration phpunit.xml.dist \
             --coverage-clover build/coverage/clover.xml \
             --coverage-html build/coverage/html \
-            --coverage-text
+            --coverage-text \
             --log-junit build/junit.xml
 
       - name: Upload coverage artifact
