@@ -49,6 +49,10 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
 
+      - name: Debug base URL
+        run: |
+          test -n "$GITLAB_BASE_URL" || (echo "GITLAB_BASE_URL fehlt" && exit 1)
+
       - name: Run tests
         run: vendor/bin/phpunit --configuration phpunit.xml.dist
 
