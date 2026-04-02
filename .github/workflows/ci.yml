@@ -12,10 +12,14 @@ jobs:
     name: PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
 
+    env:
+      GITLAB_BASE_URL: ${{ vars.GITLAB_BASE_URL }}
+      GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.3', '8.4']
+        php: ['8.3', '8.4', '8.5']
 
     steps:
       - name: Checkout
