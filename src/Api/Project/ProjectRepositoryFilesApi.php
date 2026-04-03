@@ -10,16 +10,25 @@ final readonly class ProjectRepositoryFilesApi
     public function __construct(
         private RepositoryFilesApi $repositoryFilesApi,
         private int $projectId,
+        private string $branchName = 'HEAD'
     ) {
     }
 
-    public function getRaw(string $path, string $branchName = 'HEAD'): string
+    public function getRaw(string $path, ?string $branchName = null): string
     {
+        if ($branchName === null) {
+            $branchName = $this->branchName;
+        }
+
         return $this->repositoryFilesApi->getRaw($this->projectId, $path, $branchName);
     }
 
-    public function get(string $path, string $branchName = 'HEAD'): RepositoryFile
+    public function get(string $path, ?string $branchName = null): RepositoryFile
     {
+        if ($branchName === null) {
+            $branchName = $this->branchName;
+        }
+
         return $this->repositoryFilesApi->get($this->projectId, $path, $branchName);
     }
 }

@@ -8,6 +8,8 @@ use NuToolBox\Gitlab\Dto\Project;
 
 final class ProjectResource
 {
+    private string $branch = 'HEAD';
+
     public function __construct(
         private readonly Client $client,
         private readonly int $projectId,
@@ -47,5 +49,10 @@ final class ProjectResource
     public function commits(): ProjectCommitsApi
     {
         return new ProjectCommitsApi($this->client->commits(), $this->projectId);
+    }
+
+    public function dependencies()
+    {
+        return new ProjectDependenciesApi($this->client->dependencies(), $this->projectId);
     }
 }

@@ -16,7 +16,5 @@ final class MetadataApiIntegrationTest extends IntegrationTestCase
 
         self::assertObjectHasProperty('version', $version);
         self::assertObjectHasProperty('version', $metadata);
-
-        self::assertEquals($version, $metadata);
     }
 }

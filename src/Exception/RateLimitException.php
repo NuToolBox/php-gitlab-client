@@ -2,8 +2,6 @@
 
 namespace NuToolBox\Gitlab\Exception;
 
-use Exception;
-
-class RateLimitException extends Exception
+class RateLimitException extends GitlabException
 {
 }

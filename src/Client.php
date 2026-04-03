@@ -5,6 +5,7 @@ namespace NuToolBox\Gitlab;
 use NuToolBox\Gitlab\Api\AvatarApi;
 use NuToolBox\Gitlab\Api\BranchesApi;
 use NuToolBox\Gitlab\Api\CommitsApi;
+use NuToolBox\Gitlab\Api\DependenciesApi;
 use NuToolBox\Gitlab\Api\MetadataApi;
 use NuToolBox\Gitlab\Api\PipelinesApi;
 use NuToolBox\Gitlab\Api\ProjectsApi;
@@ -65,6 +66,11 @@ class Client
     public function pipelines(): PipelinesApi
     {
         return new PipelinesApi($this);
+    }
+
+    public function dependencies(): DependenciesApi
+    {
+        return new DependenciesApi($this);
     }
 
     public function metadata(): MetadataApi

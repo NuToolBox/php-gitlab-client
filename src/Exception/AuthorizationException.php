@@ -2,8 +2,6 @@
 
 namespace NuToolBox\Gitlab\Exception;
 
-use Exception;
-
-class AuthorizationException extends Exception
+class AuthorizationException extends GitlabException
 {
 }

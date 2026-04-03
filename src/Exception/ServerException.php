@@ -2,8 +2,6 @@
 
 namespace NuToolBox\Gitlab\Exception;
 
-use Exception;
-
-class ServerException extends Exception
+class ServerException extends GitlabException
 {
 }
