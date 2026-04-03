@@ -15,7 +15,7 @@ final readonly class DependenciesApi extends GitLabApi
 {
     /**
      * @return array<Dependencies>
-     * @throws FeatureNotAvailableException
+     * @throws FeatureNotAvailableException|GitlabException
      */
     public function list(string|int $projectIdOrPath): array
     {
@@ -24,8 +24,8 @@ final readonly class DependenciesApi extends GitLabApi
 
         $dependenciesList = [];
 
-        /** @var list<DependenciesArray> $dependencies */
         try {
+            /** @var list<DependenciesArray> $dependencies */
             $dependencies = $this
                 ->getHttpClient()
                 ->getJson('/projects/' . $this->encodeProjectId($projectIdOrPath) . '/dependencies');
